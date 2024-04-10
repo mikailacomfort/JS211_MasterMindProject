@@ -2,6 +2,8 @@
 
 ![](http://en.gravatar.com/userimage/107370100/a08594145564536138dfaaf072c7b241.png)
 
+DEMO
+
 # Austin Coding Academy
 
 ## JavaScript 211 Project: Pig Latin
