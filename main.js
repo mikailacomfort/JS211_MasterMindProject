@@ -11,13 +11,13 @@ let board = [];
 let solution = '';
 let letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
-const printBoard = () =>  {
+const printBoard = () => {
   for (let i = 0; i < board.length; i++) {
     console.log(board[i]);
   }
 }
 
-const generateSolution = () =>  {
+const generateSolution = () => {
   for (let i = 0; i < 4; i++) {
     const randomIndex = getRandomInt(0, letters.length);
     solution += letters[randomIndex];
@@ -28,17 +28,55 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-const generateHint = () =>  {
-  // your code here
+const generateHint = (guess) => {
+  const solutionArray = solution.split('');
+  const guessArray = guess.split('');
+  let correctLetterLocations = 0;
+  let correctLetters = 0;
+
+  // Determine correct "letter-locations"
+  for (let i = 0; i < solutionArray.length; i++) {
+    if (guessArray[i] === solutionArray[i]) {
+      correctLetterLocations++;
+      solutionArray[i] = null;
+    }
+  }
+
+  // Determine correct "letters"
+  for (let i = 0; i < solutionArray.length; i++) {
+    const targetIndex = solutionArray.indexOf(guessArray[i]);
+    if (targetIndex > -1) {
+      correctLetters++;
+      solutionArray[targetIndex] = null;
+    }
+  }
+
+  // Return hint string
+  return `${correctLetterLocations}-${correctLetters}`;
 }
 
 const mastermind = (guess) => {
-  solution = 'abcd'; // Comment this out to generate a random solution
-  // your code here
+  // Set test solution
+  // solution = 'abcd';
+
+  if (guess === solution) {
+    console.log('You guessed it!');
+    return 'You guessed it!';
+  }
+
+  const hint = generateHint(guess);
+  board.push(`${guess}-${hint}`);
+
+  if (board.length === 10) {
+    console.log(`You ran out of turns! The solution was ${solution}.`);
+    return `You ran out of turns! The solution was ${solution}.`;
+  } else {
+    console.log('Guess again.');
+    return 'Guess again.';
+  }
 }
 
-
-const getPrompt = () =>  {
+const getPrompt = () => {
   rl.question('guess: ', (guess) => {
     mastermind(guess);
     printBoard();
